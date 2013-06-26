@@ -34,7 +34,7 @@ override_dh_auto_clean:
 	dh_auto_clean
 	( \
 		cd $(PHALCON_DIR); \
-		$(MAKE) distclean; \
+		[ -f Makefile ] && $(MAKE) distclean; \
 		phpize5 --clean; \
 		rm -f tmp-php.ini; \
 	)
