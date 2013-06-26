@@ -14,19 +14,17 @@ endif
 	dh $@
 
 override_dh_auto_configure:
-	phpize5
-	dh_auto_configure -- \
-		--enable-phalcon=shared
+	(cd cphalcon/ext; phpize5; ./configure --enable-phalcon=shared)
 
 override_dh_auto_build:
-	(cd cphalcon/ext; dh_auto_build)
+	$(MAKE) -C cphalcon/ext
 
 override_dh_auto_clean:
+	dh_auto_clean
 	( \
 		cd cphalcon/ext; \
-		dh_auto_clean; \
 		phpize5 --clean; \
-		-rm -f tmp-php.ini; \
+		rm -f tmp-php.ini; \
 	)
 
 override_dh_auto_install:
