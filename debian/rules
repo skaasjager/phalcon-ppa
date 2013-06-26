@@ -1,0 +1,40 @@
+#!/usr/bin/make -f
+#export DH_VERBOSE=1
+
+CFLAGS  += -g3 -fvisibility=hidden -fno-delete-null-pointer-checks -fno-builtin-memcmp
+LDFLAGS += -Wl,--as-needed -Wl,-O1 -Wl,-Bsymbolic-functions
+
+ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -O0
+else
+	CFLAGS += -fomit-frame-pointer -finline-functions 
+endif
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	phpize5
+	dh_auto_configure -- \
+		--enable-phalcon=shared
+
+override_dh_auto_build:
+	(cd cphalcon/ext; dh_auto_build)
+
+override_dh_auto_clean:
+	( \
+		cd cphalcon/ext; \
+		dh_auto_clean; \
+		phpize5 --clean; \
+		-rm -f tmp-php.ini; \
+	)
+
+override_dh_auto_install:
+	$(MAKE) -C cphalcon/ext install INSTALL_ROOT=debian/php5-phalcon
+
+override_dh_strip:
+	dh_strip -s --dbg-package=php5-phalcon-dbg
+
+override_dh_gencontrol:
+	echo "php:Depends=phpapi-`php-config5 --phpapi`" >> debian/php5-phalcon.substvars
+	dh_gencontrol
