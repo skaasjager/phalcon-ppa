@@ -4,31 +4,43 @@
 CFLAGS  += -g3 -fvisibility=hidden -fno-delete-null-pointer-checks -fno-builtin-memcmp
 LDFLAGS += -Wl,--as-needed -Wl,-O1 -Wl,-Bsymbolic-functions
 
+PHALCON_DIR    = cphalcon/build/safe
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+ifeq ($(DEB_HOST_ARCH),$(filter $(DEB_HOST_ARCH),i386))
+	PHALCON_DIR = cphalcon/build/32bits
+endif
+
+ifeq ($(DEB_HOST_ARCH),$(filter $(DEB_HOST_ARCH),amd64))
+	PHALCON_DIR = cphalcon/build/64bits
+endif
+
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
 else
-	CFLAGS += -fomit-frame-pointer -finline-functions 
+	CFLAGS += -fomit-frame-pointer -finline-functions
 endif
 
 %:
 	dh $@
 
 override_dh_auto_configure:
-	(cd cphalcon/ext; phpize5; ./configure --enable-phalcon=shared)
+	(cd cphalcon/build/safe; phpize5; ./configure --enable-phalcon=shared)
 
 override_dh_auto_build:
-	$(MAKE) -C cphalcon/ext
+	$(MAKE) -C $(PHALCON_DIR)
 
 override_dh_auto_clean:
 	dh_auto_clean
 	( \
-		cd cphalcon/ext; \
+		cd $(PHALCON_DIR); \
+		$(MAKE) distclean; \
 		phpize5 --clean; \
 		rm -f tmp-php.ini; \
 	)
 
 override_dh_auto_install:
-	$(MAKE) -C cphalcon/ext install INSTALL_ROOT=debian/php5-phalcon
+	$(MAKE) -C $(PHALCON_DIR) install INSTALL_ROOT=../../../debian/php5-phalcon
 
 override_dh_strip:
 	dh_strip -s --dbg-package=php5-phalcon-dbg
