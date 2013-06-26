@@ -25,7 +25,7 @@ endif
 	dh $@
 
 override_dh_auto_configure:
-	(cd cphalcon/build/safe; phpize5; ./configure --enable-phalcon=shared)
+	(cd $(PHALCON_DIR); phpize5; ./configure --enable-phalcon=shared)
 
 override_dh_auto_build:
 	$(MAKE) -C $(PHALCON_DIR)

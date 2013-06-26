@@ -1,3 +1,9 @@
+php-phalcon (1.1.0-ppa1~raring2) raring; urgency=low
+
+  * Build bug fix
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 26 Jun 2013 16:54:00 +0300
+
 php-phalcon (1.1.0-ppa1~raring1) raring; urgency=low
 
   * Improvements to the query builder allowing to define bound
