@@ -24,6 +24,7 @@ Description: High performance PHP framework
 Package: php5-phalcon-dbg
 Depends: ${misc:Depends}, php5-phalcon (= ${binary:Version})
 Recommends: gdb
+Suggests: php5-dbg
 Section: debug
 Priority: extra
 Architecture: any
