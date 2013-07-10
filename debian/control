@@ -9,6 +9,7 @@ Vcs-Browser: https://github.com/phalcon/cphalcon
 
 Package: php5-phalcon
 Architecture: any
+Pre-Depends: dpkg (>= 1.15.7.2)
 Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}
 Recommends: php-apc | php5-xcache
 Suggests: php5-mysql, php5-sqlite, php5-pgsql, php5-mongo, php5-memcache, php5-mcrypt
@@ -24,6 +25,7 @@ Description: High performance PHP framework
 Package: php5-phalcon-dbg
 Depends: ${misc:Depends}, php5-phalcon (= ${binary:Version})
 Recommends: gdb
+Suggests: php5-dbg
 Section: debug
 Priority: extra
 Architecture: any

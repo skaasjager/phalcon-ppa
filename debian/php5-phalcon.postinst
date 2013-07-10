@@ -6,7 +6,7 @@ dpkg-maintscript-helper mv_conffile /etc/php5/conf.d/phalcon.ini /etc/php5/mods-
 
 case "$1" in
 	configure)
-		php5enmod apc
+		php5enmod phalcon
 	;;
 
 	abort-upgrade|abort-remove|abort-deconfigure)
