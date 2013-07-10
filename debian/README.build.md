@@ -9,8 +9,8 @@ Build How-To
 ```bash
 # The target directory MUST be named php-phalcon
 git clone https://github.com/sjinks/php-phalcon.git php-phalcon
-tar czf php-phalcon_1.1.0.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian
-cd php-con
+tar czf php-phalcon_1.2.0.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian
+cd php-phalcon
 # Build asource package (suitable for upload to Launchpad)
 # Add -us -uc if you do not want to sign the changes
 debuild -S -sa
