@@ -1,0 +1,155 @@
+Description: Fix not working Phalcon\Http\Response::setFileToSend()
+Author: Vladimir Kolesnikov <vladimir@extrememember.com>
+Origin: https://github.com/phalcon/cphalcon/pull/831
+Bug: https://github.com/phalcon/cphalcon/pull/831
+Forwarded: https://github.com/phalcon/cphalcon/pull/832
+Last-Update: 2013-06-16
+
+--- php-phalcon-1.2.0.orig/cphalcon/ext/http/response.c
++++ php-phalcon-1.2.0/cphalcon/ext/http/response.c
+@@ -714,7 +714,7 @@ PHP_METHOD(Phalcon_Http_Response, sendCo
+  */
+ PHP_METHOD(Phalcon_Http_Response, send){
+ 
+-	zval *sent, *headers, *cookies, *content;
++	zval *sent, *headers, *cookies, *content, *file;
+ 
+ 	PHALCON_MM_GROW();
+ 
+@@ -742,7 +742,24 @@ PHP_METHOD(Phalcon_Http_Response, send){
+ 		 */
+ 		PHALCON_OBS_VAR(content);
+ 		phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+-		zend_print_zval(content, 0);
++		if (Z_STRLEN_P(content)) {
++			zend_print_zval(content, 0);
++		}
++		else {
++			PHALCON_OBS_VAR(file);
++			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
++
++			if (Z_STRLEN_P(file)) {
++				php_stream *stream;
++
++				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
++				if (stream != NULL) {
++					php_stream_passthru(stream);
++					php_stream_close(stream);
++				}
++			}
++		}
++
+ 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
+ 	
+ 		RETURN_THIS();
+--- php-phalcon-1.2.0.orig/cphalcon/build/64bits/phalcon.c
++++ php-phalcon-1.2.0/cphalcon/build/64bits/phalcon.c
+@@ -43283,7 +43283,7 @@ static PHP_METHOD(Phalcon_Http_Response,
+ 
+ static PHP_METHOD(Phalcon_Http_Response, send){
+ 
+-	zval *sent, *headers, *cookies, *content;
++	zval *sent, *headers, *cookies, *content, *file;
+ 
+ 	PHALCON_MM_GROW();
+ 
+@@ -43305,7 +43305,24 @@ static PHP_METHOD(Phalcon_Http_Response,
+ 	
+ 		PHALCON_OBS_VAR(content);
+ 		phalcon_read_property_this_quick(&content, this_ptr, SL("_content"), 249878173410654591UL, PH_NOISY_CC);
+-		zend_print_zval(content, 0);
++		if (Z_STRLEN_P(content)) {
++			zend_print_zval(content, 0);
++		}
++		else {
++			PHALCON_OBS_VAR(file);
++			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
++
++			if (Z_STRLEN_P(file)) {
++				php_stream *stream;
++
++				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
++				if (stream != NULL) {
++					php_stream_passthru(stream);
++					php_stream_close(stream);
++				}
++			}
++		}
++
+ 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
+ 	
+ 		RETURN_THIS();
+--- php-phalcon-1.2.0.orig/cphalcon/build/32bits/phalcon.c
++++ php-phalcon-1.2.0/cphalcon/build/32bits/phalcon.c
+@@ -43658,7 +43658,7 @@ static PHP_METHOD(Phalcon_Http_Response,
+ 
+ static PHP_METHOD(Phalcon_Http_Response, send){
+ 
+-	zval *sent, *headers, *cookies, *content;
++	zval *sent, *headers, *cookies, *content, *file;
+ 
+ 	PHALCON_MM_GROW();
+ 
+@@ -43680,7 +43680,24 @@ static PHP_METHOD(Phalcon_Http_Response,
+ 	
+ 		PHALCON_OBS_VAR(content);
+ 		phalcon_read_property_this_quick(&content, this_ptr, SL("_content"), 4081318271UL, PH_NOISY_CC);
+-		zend_print_zval(content, 0);
++		if (Z_STRLEN_P(content)) {
++			zend_print_zval(content, 0);
++		}
++		else {
++			PHALCON_OBS_VAR(file);
++			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
++
++			if (Z_STRLEN_P(file)) {
++				php_stream *stream;
++
++				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
++				if (stream != NULL) {
++					php_stream_passthru(stream);
++					php_stream_close(stream);
++				}
++			}
++		}
++
+ 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
+ 	
+ 		RETURN_THIS();
+--- php-phalcon-1.2.0.orig/cphalcon/build/safe/phalcon.c
++++ php-phalcon-1.2.0/cphalcon/build/safe/phalcon.c
+@@ -43658,7 +43658,7 @@ static PHP_METHOD(Phalcon_Http_Response,
+ 
+ static PHP_METHOD(Phalcon_Http_Response, send){
+ 
+-	zval *sent, *headers, *cookies, *content;
++	zval *sent, *headers, *cookies, *content, *file;
+ 
+ 	PHALCON_MM_GROW();
+ 
+@@ -43680,7 +43680,24 @@ static PHP_METHOD(Phalcon_Http_Response,
+ 	
+ 		PHALCON_OBS_VAR(content);
+ 		phalcon_read_property_this(&content, this_ptr, SL("_content"), PH_NOISY_CC);
+-		zend_print_zval(content, 0);
++		if (Z_STRLEN_P(content)) {
++			zend_print_zval(content, 0);
++		}
++		else {
++			PHALCON_OBS_VAR(file);
++			phalcon_read_property_this(&file, this_ptr, SL("_file"), PH_NOISY_CC);
++
++			if (Z_STRLEN_P(file)) {
++				php_stream *stream;
++
++				stream = php_stream_open_wrapper(Z_STRVAL_P(file), "rb", REPORT_ERRORS, NULL);
++				if (stream != NULL) {
++					php_stream_passthru(stream);
++					php_stream_close(stream);
++				}
++			}
++		}
++
+ 		phalcon_update_property_bool(this_ptr, SL("_sent"), 1 TSRMLS_CC);
+ 	
+ 		RETURN_THIS();

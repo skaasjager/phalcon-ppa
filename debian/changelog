@@ -1,3 +1,11 @@
+php-phalcon (1.2.0-ppa2~precise1) precise; urgency=low
+
+  * Fixed invalid memory reads (bug #848)
+  * Work around php5-mongo's bugs (bug #851)
+  * Fix Phalcon\Http\Response\setFileToSend() (bug #831)
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Tue, 16 Jul 2013 12:58:00 +0300
+
 php-phalcon (1.2.0-ppa1~precise1) precise; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
