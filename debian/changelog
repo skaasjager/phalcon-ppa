@@ -1,3 +1,15 @@
+php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
+
+  * Fixed invalid memory reads (bug #848)
+  * Work around php5-mongo's bugs (bug #851)
+  * Fix Phalcon\Http\Response\setFileToSend() (bug #831)
+  * Fix memory leaks and memory corruption in APC and
+    XCache cache backends (bug #858)
+  * Fix early return from
+    Phalcon\Cache\Backend\Xcache::queryKeys()
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
+
 php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
@@ -84,13 +96,6 @@ php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
     controller/task
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
-
-
-php-phalcon (1.1.0-ppa1~raring2) raring; urgency=low
-
-  * Build bug fix
-
- -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 26 Jun 2013 16:54:00 +0300
 
 php-phalcon (1.1.0-ppa1~raring1) raring; urgency=low
 
