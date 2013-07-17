@@ -1,0 +1,528 @@
+Description: Fix memory corruption and leaks in cache backends
+ * Fix memory leaks and memory corruption in APC and
+   XCache cache backends (bug #858)
+ * Fix early return from Phalcon\Cache\Backend\Xcache::queryKeys()
+Author: Vladimir Kolesnikov <vladimir@extrememember.com>
+Origin: https://github.com/phalcon/cphalcon/pull/858
+Bug: https://github.com/phalcon/cphalcon/pull/858
+Forwarded: https://github.com/phalcon/cphalcon/pull/860
+Last-Update: 2013-07-17
+
+--- php-phalcon-1.2.0.orig/cphalcon/ext/cache/backend/apc.c
++++ php-phalcon-1.2.0/cphalcon/ext/cache/backend/apc.c
+@@ -152,8 +152,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, sa
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -192,14 +190,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, sa
+ 	 * Take the lifetime from the frontend or read it from the set in start()
+ 	 */
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+-	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++
++		PHALCON_OBS_VAR(ttl);
++		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method(ttl, frontend, "getlifetime");
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -275,9 +271,12 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, qu
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+ 	
++	PHALCON_INIT_VAR(prefix_pattern);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);
++	}
++	else {
++		PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	}
+ 	
+ 	PHALCON_INIT_VAR(keys);
+@@ -286,8 +285,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, qu
+ 	PHALCON_INIT_VAR(type);
+ 	ZVAL_STRING(type, "user", 1);
+ 	
+-	PHALCON_INIT_VAR(prefix_pattern);
+-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+ 	
+ 	PHALCON_INIT_VAR(iterator);
+@@ -324,21 +321,24 @@ PHP_METHOD(Phalcon_Cache_Backend_Apc, qu
+ 			 * Remove the _PHCA prefix.
+ 			 */
+ 			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
++			efree(str_key);
+ 
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #else
+ 		PHALCON_INIT_NVAR(itkey);
+ 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
+ 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
+ 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #endif
+ 
+ 		it->funcs->move_forward(it TSRMLS_CC);
+ 	}
+ 	
++	it->funcs->dtor(it TSRMLS_CC);
++
+ 	RETURN_CTOR(keys);
+ }
+ 
+--- php-phalcon-1.2.0.orig/cphalcon/ext/cache/backend/xcache.c
++++ php-phalcon-1.2.0/cphalcon/ext/cache/backend/xcache.c
+@@ -183,8 +183,6 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache,
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -224,13 +222,11 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache,
+ 	 */
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+ 	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++		PHALCON_OBS_NVAR(ttl);
++		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method(ttl, frontend, "getlifetime");
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -353,14 +349,14 @@ PHP_METHOD(Phalcon_Cache_Backend_Xcache,
+ 	PHALCON_MM_GROW();
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+-	
++
++	PHALCON_INIT_VAR(prefixed);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefixed, "_PHCX", 1);
++	}
++	else {
++		PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	}
+-	
+-	PHALCON_INIT_VAR(prefixed);
+-	PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	
+ 	PHALCON_OBS_VAR(options);
+ 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
+--- php-phalcon-1.2.0.orig/cphalcon/build/64bits/phalcon.c
++++ php-phalcon-1.2.0/cphalcon/build/64bits/phalcon.c
+@@ -19710,8 +19710,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -19748,13 +19746,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+ 	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this_quick(&lifetime, this_ptr, SL("_lastLifetime"), 14627511492772533191UL, PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++		PHALCON_OBS_NVAR(ttl);
++		phalcon_read_property_this_quick(&ttl, this_ptr, SL("_lastLifetime"), 14627511492772533191UL, PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method_key(ttl, frontend, "getlifetime", 15161926822677340212UL);
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -19814,9 +19810,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+ 	
++	PHALCON_INIT_VAR(prefix_pattern);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);
++	}
++	else {
++		PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	}
+ 	
+ 	PHALCON_INIT_VAR(keys);
+@@ -19825,8 +19824,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	PHALCON_INIT_VAR(type);
+ 	ZVAL_STRING(type, "user", 1);
+ 	
+-	PHALCON_INIT_VAR(prefix_pattern);
+-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+ 	
+ 	PHALCON_INIT_VAR(iterator);
+@@ -19859,21 +19856,24 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
+ 		if (likely(key_type == HASH_KEY_IS_STRING)) {
+ 			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
++			efree(str_key);
+ 
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #else
+ 		PHALCON_INIT_NVAR(itkey);
+ 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
+ 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
+ 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #endif
+ 
+ 		it->funcs->move_forward(it TSRMLS_CC);
+ 	}
+ 	
++	it->funcs->dtor(it TSRMLS_CC);
++
+ 	RETURN_CTOR(keys);
+ }
+ 
+@@ -21510,8 +21510,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -21548,13 +21546,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+ 	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this_quick(&lifetime, this_ptr, SL("_lastLifetime"), 14627511492772533191UL, PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++		PHALCON_OBS_NVAR(ttl);
++		phalcon_read_property_this_quick(&ttl, this_ptr, SL("_lastLifetime"), 14627511492772533191UL, PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method_key(ttl, frontend, "getlifetime", 15161926822677340212UL);
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -21650,14 +21646,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	PHALCON_MM_GROW();
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+-	
++
++	PHALCON_INIT_VAR(prefixed);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefixed, "_PHCX", 1);
++	}
++	else {
++		PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	}
+-	
+-	PHALCON_INIT_VAR(prefixed);
+-	PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	
+ 	PHALCON_OBS_VAR(options);
+ 	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 249878686345564848UL, PH_NOISY_CC);
+--- php-phalcon-1.2.0.orig/cphalcon/build/32bits/phalcon.c
++++ php-phalcon-1.2.0/cphalcon/build/32bits/phalcon.c
+@@ -41387,8 +41387,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -41425,13 +41423,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+ 	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this_quick(&lifetime, this_ptr, SL("_lastLifetime"), 3936785351UL, PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++		PHALCON_OBS_NVAR(ttl);
++		phalcon_read_property_this_quick(&ttl, this_ptr, SL("_lastLifetime"), 3936785351UL, PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method_key(ttl, frontend, "getlifetime", 673603636UL);
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -41491,9 +41487,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+ 	
++	PHALCON_INIT_VAR(prefix_pattern);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);
++	}
++	else {
++		PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	}
+ 	
+ 	PHALCON_INIT_VAR(keys);
+@@ -41502,8 +41501,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	PHALCON_INIT_VAR(type);
+ 	ZVAL_STRING(type, "user", 1);
+ 	
+-	PHALCON_INIT_VAR(prefix_pattern);
+-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+ 	
+ 	PHALCON_INIT_VAR(iterator);
+@@ -41536,21 +41533,24 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
+ 		if (likely(key_type == HASH_KEY_IS_STRING)) {
+ 			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
++			efree(str_key);
+ 
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #else
+ 		PHALCON_INIT_NVAR(itkey);
+ 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
+ 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
+ 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #endif
+ 
+ 		it->funcs->move_forward(it TSRMLS_CC);
+ 	}
+ 	
++	it->funcs->dtor(it TSRMLS_CC);
++
+ 	RETURN_CTOR(keys);
+ }
+ 
+@@ -41917,8 +41917,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -41955,13 +41953,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+ 	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this_quick(&lifetime, this_ptr, SL("_lastLifetime"), 3936785351UL, PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++		PHALCON_OBS_NVAR(ttl);
++		phalcon_read_property_this_quick(&ttl, this_ptr, SL("_lastLifetime"), 3936785351UL, PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method_key(ttl, frontend, "getlifetime", 673603636UL);
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -42057,14 +42053,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	PHALCON_MM_GROW();
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+-	
++
++	PHALCON_INIT_VAR(prefixed);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefixed, "_PHCX", 1);
++	}
++	else {
++		PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	}
+-	
+-	PHALCON_INIT_VAR(prefixed);
+-	PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	
+ 	PHALCON_OBS_VAR(options);
+ 	phalcon_read_property_this_quick(&options, this_ptr, SL("_options"), 1620153008UL, PH_NOISY_CC);
+--- php-phalcon-1.2.0.orig/cphalcon/build/safe/phalcon.c
++++ php-phalcon-1.2.0/cphalcon/build/safe/phalcon.c
+@@ -41387,8 +41387,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -41424,14 +41422,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	phalcon_call_method_p1(prepared_content, frontend, "beforestore", cached_content);
+ 	
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+-	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++
++		PHALCON_OBS_VAR(ttl);
++		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method(ttl, frontend, "getlifetime");
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -41491,9 +41487,12 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+ 	
++	PHALCON_INIT_VAR(prefix_pattern);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefix_pattern, "/^_PHCA/", 1);
++	}
++	else {
++		PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	}
+ 	
+ 	PHALCON_INIT_VAR(keys);
+@@ -41502,8 +41501,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	PHALCON_INIT_VAR(type);
+ 	ZVAL_STRING(type, "user", 1);
+ 	
+-	PHALCON_INIT_VAR(prefix_pattern);
+-	PHALCON_CONCAT_SVS(prefix_pattern, "/^_PHCA", prefix, "/");
+ 	ce0 = zend_fetch_class(SL("APCIterator"), ZEND_FETCH_CLASS_AUTO TSRMLS_CC);
+ 	
+ 	PHALCON_INIT_VAR(iterator);
+@@ -41536,21 +41533,24 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 		key_type = it->funcs->get_current_key(it, &str_key, &str_key_len, &int_key TSRMLS_CC);
+ 		if (likely(key_type == HASH_KEY_IS_STRING)) {
+ 			ZVAL_STRINGL(key, str_key+5, str_key_len-5-1, 1);
++			efree(str_key);
+ 
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #else
+ 		PHALCON_INIT_NVAR(itkey);
+ 		it->funcs->get_current_key(it, itkey TSRMLS_CC);
+ 		if (likely(Z_TYPE_P(itkey) == IS_STRING)) {
+ 			ZVAL_STRINGL(key, Z_STRVAL_P(itkey)+5, Z_STRLEN_P(itkey)-5, 1);
+-			phalcon_array_append(&keys, key, PH_SEPARATE TSRMLS_CC);
++			phalcon_array_append(&keys, key, PH_COPY TSRMLS_CC);
+ 		}
+ #endif
+ 
+ 		it->funcs->move_forward(it TSRMLS_CC);
+ 	}
+ 	
++	it->funcs->dtor(it TSRMLS_CC);
++
+ 	RETURN_CTOR(keys);
+ }
+ 
+@@ -41917,8 +41917,6 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (!lifetime) {
+ 		PHALCON_INIT_VAR(lifetime);
+-	} else {
+-		PHALCON_SEPARATE_PARAM(lifetime);
+ 	}
+ 	
+ 	if (!stop_buffer) {
+@@ -41955,13 +41953,11 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	
+ 	if (Z_TYPE_P(lifetime) == IS_NULL) {
+ 	
+-		PHALCON_OBS_NVAR(lifetime);
+-		phalcon_read_property_this(&lifetime, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
+-		if (Z_TYPE_P(lifetime) == IS_NULL) {
+-			PHALCON_INIT_VAR(ttl);
++		PHALCON_OBS_NVAR(ttl);
++		phalcon_read_property_this(&ttl, this_ptr, SL("_lastLifetime"), PH_NOISY_CC);
++		if (Z_TYPE_P(ttl) == IS_NULL) {
++			PHALCON_INIT_NVAR(ttl);
+ 			phalcon_call_method(ttl, frontend, "getlifetime");
+-		} else {
+-			PHALCON_CPY_WRT(ttl, lifetime);
+ 		}
+ 	} else {
+ 		PHALCON_CPY_WRT(ttl, lifetime);
+@@ -42057,14 +42053,14 @@ static PHP_METHOD(Phalcon_Cache_Backend_
+ 	PHALCON_MM_GROW();
+ 
+ 	phalcon_fetch_params(1, 0, 1, &prefix);
+-	
++
++	PHALCON_INIT_VAR(prefixed);
+ 	if (!prefix) {
+-		PHALCON_INIT_VAR(prefix);
+-		ZVAL_STRING(prefix, "", 1);
++		ZVAL_STRING(prefixed, "_PHCX", 1);
++	}
++	else {
++		PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	}
+-	
+-	PHALCON_INIT_VAR(prefixed);
+-	PHALCON_CONCAT_SV(prefixed, "_PHCX", prefix);
+ 	
+ 	PHALCON_OBS_VAR(options);
+ 	phalcon_read_property_this(&options, this_ptr, SL("_options"), PH_NOISY_CC);
