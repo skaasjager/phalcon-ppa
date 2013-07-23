@@ -1,4 +1,4 @@
-php-phalcon (1.2.1-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.1-ppa1~precise1) precise; urgency=low
 
   * Reduced overall memory usage (#834, #891, #893)
   * Faster internal array and string manipulation (#830, #833, #837)
@@ -35,7 +35,7 @@ php-phalcon (1.2.1-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 23 Jul 2013 20:30:50 +0300
 
-php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
+php-phalcon (1.2.0-ppa2~precise1) precise; urgency=low
 
   * Fixed invalid memory reads (bug #848)
   * Work around php5-mongo's bugs (bug #851)
@@ -47,7 +47,7 @@ php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
 
-php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.0-ppa1~precise1) precise; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
     the compilation path in Volt
@@ -134,7 +134,7 @@ php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
 
-php-phalcon (1.1.0-ppa1~raring1) raring; urgency=low
+php-phalcon (1.1.0-ppa1~precise1) precise; urgency=low
 
   * Improvements to the query builder allowing to define bound
     parameters in the "where" methods
