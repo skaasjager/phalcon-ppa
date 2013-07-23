@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 #export DH_VERBOSE=1
 
-CFLAGS  += -g3 -fvisibility=hidden -fno-delete-null-pointer-checks -fno-builtin-memcmp
+CFLAGS  += -g3 -fvisibility=hidden -DPHALCON_RELEASE
 LDFLAGS += -Wl,--as-needed -Wl,-O1 -Wl,-Bsymbolic-functions
 
 PHALCON_DIR    = cphalcon/build/safe
