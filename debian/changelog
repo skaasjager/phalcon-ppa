@@ -1,3 +1,16 @@
+php-phalcon (1.2.2-ppa2~raring1) raring; urgency=low
+
+  * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
+  * Fixed 'Sanitize filter is not supported' error (#1018, #1020)
+  * Fixed AnnotationsAdapter getProperty error (#995)
+  * Proper support for has-many-to-many (#938, #966)
+  * CSS joining bug fix (#951, #957)
+  * Fixed bugs in Paginator (#826, #941)
+  * Added decimal scale support (#935)
+  * Fixed other bugs (#967, #999)
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Fri,  9 Aug 2013 13:19:00 +0300
+
 php-phalcon (1.2.2-ppa1~raring1) raring; urgency=low
 
   * Phalcon\Mvc\Model\Query\Builder may now use both integer
