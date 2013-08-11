@@ -1,3 +1,9 @@
+php-phalcon (1.2.3-ppa1~precise1) precise; urgency=high
+
+  * Hardening patches (#1044)
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 11 Aug 2013 22:59:59 +0300
+
 php-phalcon (1.2.2.1-ppa1~precise1) precise; urgency=low
 
   * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
