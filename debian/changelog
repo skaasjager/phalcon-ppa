@@ -1,10 +1,51 @@
-php-phalcon (1.2.3-ppa1~saucy1) saucy; urgency=high
+php-phalcon (1.2.4~git20131023-ppa1~raring1) raring; urgency=low
+
+  * Fixed broken ACL inheritance (#905)
+  * Fixed crash while rendering element's label (#1210)
+  * Fixed XSS vulnerabilities (#1216, #1190)
+  * Added support for APCu 4.0.2+ (#1234)
+  * Fixed chaining of CSS/JS filters (#1198)
+  * Fixed notices and warnings with complex PHQL queries (#1222)
+  * Memory allocation optimizations (#1220)
+  * Fixed regular expression in \Phalcon\Mvc\Model\Validator\Email (#1243)
+  * Documentation bug fixes
+  * Phalcon\Mvc\Model::hasOne/hasMany/belongsTo/hasManyToMany/addBehavior()
+    are now public methods (#1166)
+  * Added support for MySQL DOUBLE type (#1128)
+  * Added support for UTF-8 characters in jsmin
+  * Added support for UTF-8 to \Phalcon\Debug (#1099)
+  * Fixed regression in \Phalcon\Http\Request::getRawBody() (#1091)
+  * Implemented \Phalcon\Cache\Backend\Memory::queryKeys() (#1093)
+  * Redirects use status descriptions from RFC 2616 (#1175)
+  * \Phalcon\Config::merge now works with derived classes (#1024)
+  * \Phalcon\Security::checkHash() allows to restrict the length of
+    the password to avoid attacks like
+    https://www.djangoproject.com/weblog/2013/sep/15/security/
+  * \Phalcon\Config can now be cloned (#1277)
+  * \Phalcon\Mvc\Query\Builder::__construct() ignores joins (#1327)
+  * Bug with a custom Events Manager in Phalcon\Mvc\Models (#1314)
+  * Micro Collections return Phalcon\Mvc\Micro\CollectionInterface (#1130)
+  * \Phalcon\Forms\Form::getMessages() does not generate a fatal error
+    if the form is valid (#1349)
+  * Fixed memory leaks (#1345)
+  * Fixed invalid memory reads/writes across the code (#1340)
+  * Fixed HAVING handling in Phalcon\Mvc\QueryBuilder (#1396)
+  * Bug fixes in \Phalcon\Logger\{Adapter,Formatter}\FirePhp (#1333)
+  * Bug fixes in Phalcon\Cache\Backend\Xcache (#1406)
+  * Phalcon\Forms\Element::__toString() does not throw exceptions
+    anymore (#1413)
+  * Other bug fixes (#947, #1131, #1040, #1275, #1392, #1396, #1399,
+    backported patches from 1.3.0 etc)
+
+ -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 23 Oct 2013 10:59:59 +0300
+
+php-phalcon (1.2.3-ppa1~raring1) raring; urgency=high
 
   * Hardening patches (#1044)
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 11 Aug 2013 22:59:59 +0300
 
-php-phalcon (1.2.2.1-ppa1~saucy1) saucy; urgency=low
+php-phalcon (1.2.2.1-ppa1~raring1) raring; urgency=low
 
   * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
   * Fixed 'Sanitize filter is not supported' error (#1018, #1020)
@@ -17,7 +58,7 @@ php-phalcon (1.2.2.1-ppa1~saucy1) saucy; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Fri,  9 Aug 2013 13:19:00 +0300
 
-php-phalcon (1.2.2-ppa1~saucy1) saucy; urgency=low
+php-phalcon (1.2.2-ppa1~raring1) raring; urgency=low
 
   * Phalcon\Mvc\Model\Query\Builder may now use both integer
     and string placeholders (#701)
@@ -31,7 +72,7 @@ php-phalcon (1.2.2-ppa1~saucy1) saucy; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sat, 27 Jul 2013 02:10:01 +0300
 
-php-phalcon (1.2.1-ppa1~saucy1) saucy; urgency=low
+php-phalcon (1.2.1-ppa1~raring1) raring; urgency=low
 
   * Reduced overall memory usage (#834, #891, #893)
   * Faster internal array and string manipulation (#830, #833, #837)
@@ -68,7 +109,7 @@ php-phalcon (1.2.1-ppa1~saucy1) saucy; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 23 Jul 2013 20:30:50 +0300
 
-php-phalcon (1.2.0-ppa2~saucy1) saucy; urgency=low
+php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
 
   * Fixed invalid memory reads (bug #848)
   * Work around php5-mongo's bugs (bug #851)
@@ -80,7 +121,7 @@ php-phalcon (1.2.0-ppa2~saucy1) saucy; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
 
-php-phalcon (1.2.0-ppa1~saucy1) saucy; urgency=low
+php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
     the compilation path in Volt
@@ -167,7 +208,7 @@ php-phalcon (1.2.0-ppa1~saucy1) saucy; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
 
-php-phalcon (1.1.0-ppa1~saucy1) saucy; urgency=low
+php-phalcon (1.1.0-ppa1~raring1) raring; urgency=low
 
   * Improvements to the query builder allowing to define bound
     parameters in the "where" methods
