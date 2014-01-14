@@ -9,7 +9,7 @@ Build How-To
 ```bash
 # The target directory MUST be named php-phalcon
 git clone https://github.com/phalcon/php-phalcon.git php-phalcon
-tar czf php-phalcon_1.2.4.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian
+tar czf php-phalcon_1.2.5.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian
 cd php-phalcon
 # Build asource package (suitable for upload to Launchpad)
 # Add -us -uc if you do not want to sign the changes
@@ -19,11 +19,12 @@ debuild
 ```
 
 The repository contains several branches:
-* lucid: Ubuntu 10.04 LTS
-* precise: Ubuntu 12.04 LTS
-* quantal: Ubuntu 12.10
-* raring: Ubuntu 13.04
-* saucy: Uuntu 13.10
+  * lucid: Ubuntu 10.04 LTS
+  * precise: Ubuntu 12.04 LTS
+  * quantal: Ubuntu 12.10
+  * raring: Ubuntu 13.04
+  * saucy: Uuntu 13.10
+  * trusty: Ubuntu 14.04 LTS
 
 To build a package for a specific branch run these commands after `git clone` and before `tar`"
 
