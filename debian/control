@@ -1,7 +1,8 @@
 Source: php-phalcon
 Section: php
 Priority: optional
-Maintainer: Vladimir Kolesnikov <vladimir@extrememember.com>
+Maintainer: Phalcon PHP Team <team@phalconphp.com>
+XSBC-Original-Maintainer: Vladimir Kolesnikov <vladimir@extrememember.com>
 Build-Depends: debhelper (>= 9), php5-dev
 Standards-Version: 3.9.4
 Vcs-Git: git://github.com/phalcon/cphalcon.git
@@ -10,7 +11,7 @@ Vcs-Browser: https://github.com/phalcon/cphalcon
 Package: php5-phalcon
 Architecture: any
 Pre-Depends: dpkg (>= 1.15.7.2)
-Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${php:Depends}, ${misc:Depends}, libpcre3-dev
 Recommends: php-apc | php5-xcache
 Suggests: php5-mysql, php5-sqlite, php5-pgsql, php5-mongo, php5-memcache, php5-mcrypt
 Description: High performance PHP framework
