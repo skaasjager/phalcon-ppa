@@ -38,6 +38,7 @@ php-phalcon (1.3.2-ppa1~trusty1) trusty; urgency=low
 copy this line and change the version to the version of the new phalcon release and the operating system codename (trusty, precise etc) to the proper name. Make sure that you enter the name of the edition of ubuntu that corresponds with the branch!. 
 
 Finish the changelog by adding the actual changes that you can find in the official cphalcon changelog. 
+
 4.  Update the submodule of cphalcon by running: git submodule update --init --recursive
 5.  Commit the changes to this branch and repeat the process for all branches (you can use git merge <current branch> and then enter the correct os name by resolving the merge conflict).
 6.  Build the tar file for this release (cd .. && tar czf php-phalcon_1.3.2.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian cd php-phalcon). Change the version to the correct version! The resulting tar must be one directory up from php-phalcon!
