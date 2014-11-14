@@ -1,6 +1,6 @@
 ### Phalcon Ubuntu PPA Package
 
-Step 1: Generate gpg key and upload it
+##Step 1: Generate gpg key and upload it
 ---
 
 ! This step is only required if you do not have a published gpg key that you can use to sign the packages.
@@ -26,11 +26,11 @@ The synchonization of the keyserver can take up to 15 minutes, so grab a tea/cof
 
 10. Open the email, if you don't see a link that has 'token' in it but you do see -----BEGIN PGP MESSAGE----- then you will need to decrypt this message. You can do this by putting the contents from BEGIN to END into a text file and run gpg -d <file>. Now the confirmation link should appear.
 
-Step 2: Building the package
-
-1. Create a directory where you want to create the packages (e.g. /home/foobar/phalcon)
-2. clone the php-phalcon repository (git clone https://github.com/phalcon/php-phalcon.git) The directory MUST be named php-phalcon.
-3. If you need to bump the version (new version of phalcon has been released) then you have to edit the changelog first (vi debian/changelog).
+##Step 2: Building the package
+---
+1.  Create a directory where you want to create the packages (e.g. /home/foobar/phalcon)
+2.  clone the php-phalcon repository (git clone https://github.com/phalcon/php-phalcon.git) The directory MUST be named php-phalcon.
+3.  If you need to bump the version (new version of phalcon has been released) then you have to edit the changelog first (vi debian/changelog).
 
 You will see a line similar to:
 php-phalcon (1.3.2-ppa1~trusty1) trusty; urgency=low
@@ -38,12 +38,12 @@ php-phalcon (1.3.2-ppa1~trusty1) trusty; urgency=low
 copy this line and change the version to the version of the new phalcon release and the operating system codename (trusty, precise etc) to the proper name. Make sure that you enter the name of the edition of ubuntu that corresponds with the branch!. 
 
 Finish the changelog by adding the actual changes that you can find in the official cphalcon changelog. 
-4. Update the submodule of cphalcon by running: git submodule update --init --recursive
-5. Commit the changes to this branch and repeat the process for all branches (you can use git merge <current branch> and then enter the correct os name by resolving the merge conflict).
-6. Build the tar file for this release (cd .. && tar czf php-phalcon_1.3.2.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian cd php-phalcon). Change the version to the correct version! The resulting tar must be one directory up from php-phalcon!
-7. Go back to the php-phalcon directory (cd php-phalcon). Enter gpg --list-keys and copy your public key part ( pub 2048R/<something>).
-8. Build the package by running: debuild -S -sa -k<your pubkey>
-9. Now upload the change file to the ppa. Go one directory up (cd ..) and upload the changes file (dput ppa:phalcon/stable php-phalcon_1.3.2-ppa1~trusty1_source.changes)
+4.  Update the submodule of cphalcon by running: git submodule update --init --recursive
+5.  Commit the changes to this branch and repeat the process for all branches (you can use git merge <current branch> and then enter the correct os name by resolving the merge conflict).
+6.  Build the tar file for this release (cd .. && tar czf php-phalcon_1.3.2.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian cd php-phalcon). Change the version to the correct version! The resulting tar must be one directory up from php-phalcon!
+7.  Go back to the php-phalcon directory (cd php-phalcon). Enter gpg --list-keys and copy your public key part ( pub 2048R/<something>).
+8.  Build the package by running: debuild -S -sa -k<your pubkey>
+9.  Now upload the change file to the ppa. Go one directory up (cd ..) and upload the changes file (dput ppa:phalcon/stable php-phalcon_1.3.2-ppa1~trusty1_source.changes)
 
 Now an email should appear saying whether or not the package has been accepted.
 
