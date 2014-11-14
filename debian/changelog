@@ -1,3 +1,11 @@
+php-phalcon (1.3.4-ppa1~trusty) trusty; urgency=low
+  * Fix improper access to \Phalcon\Debug::$_charset (#2840)
+  * Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
+  * Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
+  * Fix possible memory corruption when phalcon_concat_self does not properly separate values
+
+ -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 14 Nov 2014 18:58:20 +0100
+
 php-phalcon (1.3.3-ppa1~trusty) trusty; urgency=low
   * Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
   * Fix memory corruption on unclean shutdown (#2829)

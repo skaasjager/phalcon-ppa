@@ -5,7 +5,7 @@
 
 ! This step is only required if you do not have a published gpg key that you can use to sign the packages.
 
-1. install gnupg2 and gnupg  (sudo apt-get install gnupg2 gnupg )
+1. install needed dependecies (sudo apt-get install gnupg2 gnupg devscripts )
 2. generate a new key (gpg2 --gen-key)
 3. Select the default (RSA and RSA)
 4. Select a keysize (minimum 2048)
@@ -39,12 +39,12 @@ copy this line and change the version to the version of the new phalcon release 
 
 Finish the changelog by adding the actual changes that you can find in the official cphalcon changelog. 
 
-4.  Update the submodule of cphalcon by running: git submodule update --init --recursive
-5.  Commit the changes to this branch and repeat the process for all branches (you can use git merge <current branch> and then enter the correct os name by resolving the merge conflict).
-6.  Build the tar file for this release (cd .. && tar czf php-phalcon_1.3.2.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian cd php-phalcon). Change the version to the correct version! The resulting tar must be one directory up from php-phalcon!
-7.  Go back to the php-phalcon directory (cd php-phalcon). Enter gpg --list-keys and copy your public key part ( pub 2048R/<something>).
-8.  Build the package by running: debuild -S -sa -k<your pubkey>
-9.  Now upload the change file to the ppa. Go one directory up (cd ..) and upload the changes file (dput ppa:phalcon/stable php-phalcon_1.3.2-ppa1~trusty1_source.changes)
+1.  Update the submodule of cphalcon by running: git submodule update --init --recursive
+2.  Commit the changes to this branch and repeat the process for all branches (you can use git merge <current branch> and then enter the correct os name by resolving the merge conflict).
+3.  Build the tar file for this release (cd .. && tar czf php-phalcon_1.3.2.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian && cd php-phalcon). Change the version to the correct version! The resulting tar must be one directory up from php-phalcon!
+4.  Go back to the php-phalcon directory (cd php-phalcon). Enter gpg --list-keys and copy your public key part ( pub 2048R/<something>).
+5.  Build the package by running: debuild -S -sa -k<your pubkey>
+6.  Now upload the change file to the ppa. Go one directory up (cd ..) and upload the changes file (dput ppa:phalcon/stable php-phalcon_1.3.2-ppa1~trusty1_source.changes)
 
 Now an email should appear saying whether or not the package has been accepted.
 
