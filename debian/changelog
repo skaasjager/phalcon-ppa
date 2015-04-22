@@ -1,3 +1,22 @@
+php-phalcon (2.0.0-ppa1~trusty) trusty; urgency=low
+  * Full rewrite of most components in Zephir
+  * Added Phalcon\Mvc\Micro::error for better handling of exceptions
+  * Phalcon\Forms\Form::label does not share attributes with the ones that belong to the element
+  * Added parameter 'params' to set default conditions when retrieving related records
+  *  Added filters "int!" and "float!" that cast values to the respective type
+  * Filter "alphanum" now uses a regular expression instead of internal functions for better behaviour in 64bits
+  * Added 'allowEmpty' option in Phalcon\Validation validators to skip validation if the value is empty
+  * Added Phalcon\Validation::setDefaultMessages to set default values in validators
+  * Added Phalcon\Validation\Validator\Numericality
+  * Added events in Phalcon\Di: beforeServiceResolve / afterServiceResolve
+  * Mysql database introspector now uses DATABASE() as default schema
+  * Added option to disable cache keys in Cache\Backend\Memcache
+  * Mvc\View component is now disabled automatically when redirecting using Http\Response
+  * Mvc\Model::dynamicUpdate now works better as it compares if every field has changed according to its data type
+  * Added Db\Adapter\Pdo::getErrorInfo() to obtain the last error generated in a PDO connection
+
+ -- Stephen Hoogendijk <stephen@tca0.nl>  Wed, 22 Apr 2015 09:07:00 +0100
+
 php-phalcon (1.3.4-ppa1~trusty) trusty; urgency=low
   * Fix improper access to \Phalcon\Debug::$_charset (#2840)
   * Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
