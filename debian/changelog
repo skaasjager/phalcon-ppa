@@ -1,4 +1,4 @@
-php-phalcon (2.0.1-ppa1~vivid) vivid; urgency=low
+php-phalcon (2.0.1-ppa1~trusty) trusty; urgency=low
   * Added missing Phalcon\Debug::listenLowSeverity
   * Added new theme in Phalcon\Debug
   * Allow to count and iterate Phalcon\Session\Bag as in 1.3.x
@@ -20,7 +20,7 @@ php-phalcon (2.0.1-ppa1~vivid) vivid; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Mon, 11 May 2015 09:07:00 +0100
 
-php-phalcon (2.0.0-ppa1~vivid) vivid; urgency=low
+php-phalcon (2.0.0-ppa1~trusty) trusty; urgency=low
   * Full rewrite of most components in Zephir
   * Added Phalcon\Mvc\Micro::error for better handling of exceptions
   * Phalcon\Forms\Form::label does not share attributes with the ones that belong to the element
@@ -39,7 +39,7 @@ php-phalcon (2.0.0-ppa1~vivid) vivid; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Wed, 22 Apr 2015 09:07:00 +0100
 
-php-phalcon (1.3.4-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.3.4-ppa1~trusty) trusty; urgency=low
   * Fix improper access to \Phalcon\Debug::$_charset (#2840)
   * Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
   * Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
@@ -47,13 +47,13 @@ php-phalcon (1.3.4-ppa1~vivid) vivid; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 14 Nov 2014 18:58:20 +0100
 
-php-phalcon (1.3.3-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.3.3-ppa1~trusty) trusty; urgency=low
   * Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
   * Fix memory corruption on unclean shutdown (#2829)
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 27 Jun 2014 15:42:00 +0100
 
-php-phalcon (1.3.2-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.3.2-ppa1~trusty) trusty; urgency=low
   * fix inverted test in Model/setSnapshotData() (issue #2466)
   * Updated Phalcon\Queue\Beanstalk\Job::touch comment
   * Fixed use columns as referenced columns in mysql createTable() reference...
@@ -124,7 +124,7 @@ php-phalcon (1.3.2-ppa1~vivid) vivid; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 27 Jun 2014 15:42:00 +0100
 
-php-phalcon (1.2.5+git20140114-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.2.5+git20140114-ppa1~trusty) trusty; urgency=low
 
   * Http\Cookie::__toString() will not throw exceptions (#1427)
   * Phalcon\Http\Cookie::__toString() will return a string value (#1428)
@@ -155,7 +155,7 @@ php-phalcon (1.2.5+git20140114-ppa1~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Tue, 14 Jan 2014 22:30:00 +0200
 
-php-phalcon (1.2.4~git20131023-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.2.4~git20131023-ppa1~trusty) trusty; urgency=low
 
   * Fixed broken ACL inheritance (#905)
   * Fixed crash while rendering element's label (#1210)
@@ -196,13 +196,13 @@ php-phalcon (1.2.4~git20131023-ppa1~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 23 Oct 2013 10:59:59 +0300
 
-php-phalcon (1.2.3-ppa1~vivid) vivid; urgency=high
+php-phalcon (1.2.3-ppa1~trusty) trusty; urgency=high
 
   * Hardening patches (#1044)
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 11 Aug 2013 22:59:59 +0300
 
-php-phalcon (1.2.2.1-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.2.2.1-ppa1~trusty) trusty; urgency=low
 
   * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
   * Fixed 'Sanitize filter is not supported' error (#1018, #1020)
@@ -215,7 +215,7 @@ php-phalcon (1.2.2.1-ppa1~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Fri,  9 Aug 2013 13:19:00 +0300
 
-php-phalcon (1.2.2-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.2.2-ppa1~trusty) trusty; urgency=low
 
   * Phalcon\Mvc\Model\Query\Builder may now use both integer
     and string placeholders (#701)
@@ -229,7 +229,7 @@ php-phalcon (1.2.2-ppa1~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sat, 27 Jul 2013 02:10:01 +0300
 
-php-phalcon (1.2.1-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.2.1-ppa1~trusty) trusty; urgency=low
 
   * Reduced overall memory usage (#834, #891, #893)
   * Faster internal array and string manipulation (#830, #833, #837)
@@ -266,7 +266,7 @@ php-phalcon (1.2.1-ppa1~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 23 Jul 2013 20:30:50 +0300
 
-php-phalcon (1.2.0-ppa2~vivid) vivid; urgency=low
+php-phalcon (1.2.0-ppa2~trusty) trusty; urgency=low
 
   * Fixed invalid memory reads (bug #848)
   * Work around php5-mongo's bugs (bug #851)
@@ -278,7 +278,7 @@ php-phalcon (1.2.0-ppa2~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
 
-php-phalcon (1.2.0-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.2.0-ppa1~trusty) trusty; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
     the compilation path in Volt
@@ -365,7 +365,7 @@ php-phalcon (1.2.0-ppa1~vivid) vivid; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
 
-php-phalcon (1.1.0-ppa1~vivid) vivid; urgency=low
+php-phalcon (1.1.0-ppa1~trusty) trusty; urgency=low
 
   * Improvements to the query builder allowing to define bound
     parameters in the "where" methods
