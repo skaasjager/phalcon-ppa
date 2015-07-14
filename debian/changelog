@@ -1,3 +1,11 @@
+php-phalcon (2.0.5-ppa1~precise) precise; urgency=low
+  * Fixed a bug that makes that attaching an events manager to an Mvc\Application causes view->render() not being called
+  * Fixed bug that makes generated SQL statements using FOR UPDATE not being parsed correctly 
+  * The email filter now no longer removes the ' character  [#10603](https://github.com/phalcon/cphalcon/pull/10603)
+  * When an array is bound the cached representation in PHQL makes the SQL being incorrectly generated the second time.
+
+ -- Stephen Hoogendijk <stephen@tca0.nl>  Tue, 14 Jul 2015 09:54:00 +0100
+
 php-phalcon (2.0.4-ppa1~precise) precise; urgency=low
   * Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
   * Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of http://docs.phalconphp.com
@@ -114,8 +122,7 @@ php-phalcon (2.0.0-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Wed, 22 Apr 2015 09:07:00 +0100
 
-php-phalcon (1.3.4-ppa1~trusty) trusty; urgency=low
->>>>>>> Temporary merge branch 2
+php-phalcon (1.3.4-ppa1~precise) precise; urgency=low
   * Fix improper access to \Phalcon\Debug::$_charset (#2840)
   * Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
   * Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
@@ -124,7 +131,6 @@ php-phalcon (1.3.4-ppa1~trusty) trusty; urgency=low
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 14 Nov 2014 18:58:20 +0100
 
 php-phalcon (1.3.3-ppa1~precise) precise; urgency=low
-
   * Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
   * Fix memory corruption on unclean shutdown (#2829)
 
@@ -201,7 +207,7 @@ php-phalcon (1.3.2-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 27 Jun 2014 15:42:00 +0100
 
-php-phalcon (1.2.5+git20140114-ppa1~saucy1) saucy; urgency=low
+php-phalcon (1.2.5+git20140114-ppa1~precise) precise; urgency=low
 
   * Http\Cookie::__toString() will not throw exceptions (#1427)
   * Phalcon\Http\Cookie::__toString() will return a string value (#1428)
@@ -232,7 +238,7 @@ php-phalcon (1.2.5+git20140114-ppa1~saucy1) saucy; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Tue, 14 Jan 2014 22:30:00 +0200
 
-php-phalcon (1.2.4~git20131023-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.4~git20131023-ppa1~precise) precise; urgency=low
 
   * Fixed broken ACL inheritance (#905)
   * Fixed crash while rendering element's label (#1210)
@@ -273,13 +279,13 @@ php-phalcon (1.2.4~git20131023-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 23 Oct 2013 10:59:59 +0300
 
-php-phalcon (1.2.3-ppa1~raring1) raring; urgency=high
+php-phalcon (1.2.3-ppa1~precise) precise; urgency=high
 
   * Hardening patches (#1044)
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 11 Aug 2013 22:59:59 +0300
 
-php-phalcon (1.2.2.1-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.2.1-ppa1~precise) precise; urgency=low
 
   * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
   * Fixed 'Sanitize filter is not supported' error (#1018, #1020)
@@ -292,7 +298,7 @@ php-phalcon (1.2.2.1-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Fri,  9 Aug 2013 13:19:00 +0300
 
-php-phalcon (1.2.2-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.2-ppa1~precise) precise; urgency=low
 
   * Phalcon\Mvc\Model\Query\Builder may now use both integer
     and string placeholders (#701)
@@ -306,7 +312,7 @@ php-phalcon (1.2.2-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sat, 27 Jul 2013 02:10:01 +0300
 
-php-phalcon (1.2.1-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.1-ppa1~precise) precise; urgency=low
 
   * Reduced overall memory usage (#834, #891, #893)
   * Faster internal array and string manipulation (#830, #833, #837)
@@ -343,7 +349,7 @@ php-phalcon (1.2.1-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 23 Jul 2013 20:30:50 +0300
 
-php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
+php-phalcon (1.2.0-ppa2~precise) precise; urgency=low
 
   * Fixed invalid memory reads (bug #848)
   * Work around php5-mongo's bugs (bug #851)
@@ -355,7 +361,7 @@ php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
 
-php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
+php-phalcon (1.2.0-ppa1~precise) precise; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
     the compilation path in Volt
@@ -375,7 +381,7 @@ php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
   * Added Phalcon\Mvc\View\Simple as an alternative view component,
     this only have a single level of rendering and works better with
     Volt's inheritance
-  * Better escaping of reserved words in internal PHQL generation
+  * Better escaping of reserved wornds in internal PHQL generation
   * Added Phalcon\Http\Request::getJsonRawBody() to return the request body
     as a decoded JSON
   * Added Phalcon\Http\Request::getHeaders()
@@ -442,7 +448,7 @@ php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
 
-php-phalcon (1.1.0-ppa1~raring1) raring; urgency=low
+php-phalcon (1.1.0-ppa1~precise) precise; urgency=low
 
   * Improvements to the query builder allowing to define bound
     parameters in the "where" methods
