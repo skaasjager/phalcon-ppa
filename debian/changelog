@@ -1,3 +1,100 @@
+php-phalcon (2.0.4-ppa1~precise) precise; urgency=low
+  * Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
+  * Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of http://docs.phalconphp.com
+  * Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes
+  * Improved generation of macros in Volt using anonymous functions instead of plain PHP functions
+  This allow to bind the adapter object and inject services within them
+  * Fixed generation and validation of default parameters in Volt's macros
+  * Added `Phalcon\Assets\Manager::getCollections()` to return all collections registered (https://github.com/phalcon/cphalcon/pull/2488)
+  * Now `Phalcon\Mvc\Url::getStatic()` generates URLs from routes
+  * Introduced `Phalcon\Mvc\EntityInterface` to allow parameters receive both Phalcon\Mvc\Model and `Phalcon\Mvc\Collection` instances
+  * Added `Phalcon\Session\Adapter::setName()` to change the session name
+  * Added BIGINT support in Phalcon\Db
+  * Added new types `Phalcon\Db\Column::BLOB` and `Phalcon\Db\Column::DOUBLE` (https://github.com/phalcon/cphalcon/pull/10506)
+  * Automatic binding of Large Object data (LOB) in the ORM
+  * Support for BIT types in MySQL with binding as booleans
+  * Added `Phalcon\Flash\Direct::output()` allowing to place flash messages in a specific place of the view (https://github.com/phalcon/cphalcon/pull/629)
+  * Added 'autoescape' option that allows to globally enable autoescape in any Volt template
+  * Added readAttribute/writeAttribute to `Phalcon\Mvc\Collection\Document`
+  * Added toArray to `Phalcon\Mvc\Collection\Document`
+  * Global setting db.force_casting now forces casting bound parameters to specified bind types
+  * Introduced new placeholders in PHQL enclosed in brackets that allow to set the type: {name:str} or {names:array}
+  * Now you can bind arrays in bound parameters in PHQL
+  * Global setting orm.cast_on_hydrate allow to cast hydrated attributes to the original types in the mapped tables instead of using strings
+  * Values in LIMIT/OFFSET clause are now passed using bound parameters in PHQL
+  * Allowing late state binding in both Simple/Complex results to allow override `Mvc\Model::cloneResultMap`
+  * Added method `distinct()` in `Phalcon\Mvc\Model\Criteria` (https://github.com/phalcon/cphalcon/issues/10536)
+  * Added global setting orm.ignore_unknown_columns to ignore unexpected columns when hydrating instances in the ORM
+  This fixes extra auxiliar columns used in `Db\Adapter\Pdo\Oracle`
+  * Added support for afterFetch in `Mvc\Collection`
+  * Added 'beforeMatch' parameter in @Route annotation of `Mvc\Router\Annotations`
+  * Added groupBy/getGroupBy/having/getHaving to `Mvc\Model\Criteria`
+  * `Phalcon\Mvc\Model::count()` now return values as integer
+  * Removed `__construct` from `Phalcon\Mvc\View\EngineInterface`
+  * Added `Phalcon\Debug\Dump::toJson()` to return an JSON string of information about a single variable
+  * Now instances in Phalcon\Di are built using internal optimizers instead of ReflectionClass (PHP 5.6)
+  * Added `Phalcon\Mvc\Model\Validator\Ip` from incubator
+  * Added parameter return `defaultValue` in `Phalcon\Mvc\Model\Validator::getOption()`
+  * Fixed in `Phalcon\Validation\Validator\Identical` the name of parameter `value` to `accepted` according docs
+  * Added method `Text:dynamic()` generate random text in accordance with the template (https://github.com/phalcon/cphalcon/pull/10571)
+  * Now Mvc\Router has default routes with unicode support (https://github.com/phalcon/cphalcon/pull/10544)
+
+ -- Sid Roberts <sid@sidroberts.co.uk>  Mon, 07 Jul 2015 15:00:00 +0100
+
+php-phalcon (2.0.3-ppa1~precise) precise; urgency=low
+  * Added support for Behaviors in `Phalcon\Mvc\Collection`
+  * Added SoftDelete and Timestampable behaviors to Collections
+  * Implemented Namespace aliases in PHQL
+  * Now you can define if a virtual foreign key must ignore null values or not
+  * Fixed bug that added two ? in `Mvc\Url::get()` when using query parameters (https://github.com/phalcon/cphalcon/issues/10421)
+- Now string attributes in models can be marked to allow empty string values (https://github.com/phalcon/cphalcon/issues/440)
+  * Added an option to return the SQL to be generated from a `Mvc\Model\Query` instance (https://github.com/phalcon/cphalcon/issues/1908)
+  * Fix doesn't correct column domain in `Phalcon\Db\Dialect::select()` (https://github.com/phalcon/cphalcon/pull/10439)
+  * Added support for DOUBLE type in MySQL
+  * `Phalcon\Tag\Select` now handles array values as strings avoiding that zero will be handled as empty string (https://github.com/phalcon/cphalcon/issues/2921)
+  * PHQL now supports CASE/WHEN/ELSE expressions (https://github.com/phalcon/cphalcon/issues/651)
+  * Fixed bug that passes non-string values to `Phalcon\Crypt::encrypt` from `Phalcon\Http\Cookies`
+  * Fixed bug that didn't pass the schema name in the sequence name (PostgreSQL)
+  * Attribute persistent is now removed from the DNS attributes in PDO connections to avoid errors in PostgreSQL (https://github.com/phalcon/cphalcon/issues/10484)
+
+ -- Sid Roberts <sid@sidroberts.co.uk>  Mon, 07 Jul 2015 15:00:00 +0100
+
+php-phalcon (2.0.2-ppa1~precise) precise; urgency=low
+  * Added `stats()` methods to Beanstalk
+  * Fixed segfault when a docblock does not have annotations (https://github.com/phalcon/cphalcon/issues/10301)
+  * Fixed wrong number of parameters passed when triggering an event in Mvc\Collection
+  * Now `Mvc\Model` checks if an attribute has a default value associated in the database and ignores it from the insert/update generated SQL
+  * Readded `Http\Request::hasPut()` (https://github.com/phalcon/cphalcon/issues/10283)
+  * Phalcon\Text
+    * Added method `reduceSlashes()` - Reduces multiple slashes in a string to single slashes
+    * Added method `concat()` - Concatenates strings using the separator only once without duplication in places concatenation
+  * Added conditional on Session adapter start() to check if the session has already been started
+  * Added `status()` function in Session adapter to return the status of the session (disabled/none/started)
+
+ -- Sid Roberts <sid@sidroberts.co.uk>  Mon, 07 Jul 2015 15:00:00 +0100
+
+php-phalcon (2.0.1-ppa1~precise) precise; urgency=low
+  * Added missing Phalcon\Debug::listenLowSeverity
+  * Added new theme in Phalcon\Debug
+  * Allow to count and iterate Phalcon\Session\Bag as in 1.3.x
+  * Renamed getEventsManager to getInternalEventsManager in Phalcon\Di to avoid collision
+   with existing services
+  * Added constants FILTER_* to Phalcon\Filter for filters names
+  * Fixed multibyte characters in cssmin/jsmin
+  * Added Phalcon\Security::destroyToken() to remove current token key and value from session
+  * Changed Phalcon\Security::isLegacyHash() to return TRUE if passwordHash is not a valid bcrypt hash (instead of false), 
+   removed first argument (password), since it's not used in the function
+  * Restored alternative hash algorithms in Phalcon\Security that were available in 1.3.x
+  * Fixed bug that makes instances returned in Model::findFirst to be not completely initialized
+  * Added support for general SELECT ALL/SELECT DISTINCT in PHQL
+  * Added support for "not in" test in Volt
+  * Phalcon\Debug\Dump
+  * Renamed method var() to variable()
+  * Renamed method vars() to variables()
+  * Phalcon\Mvc\Model::findFirst() now allows hydration (#10259).
+
+ -- Stephen Hoogendijk <stephen@tca0.nl>  Mon, 11 May 2015 09:07:00 +0100
+
 php-phalcon (2.0.0-ppa1~precise) precise; urgency=low
   * Full rewrite of most components in Zephir
   * Added Phalcon\Mvc\Micro::error for better handling of exceptions
@@ -17,7 +114,8 @@ php-phalcon (2.0.0-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Wed, 22 Apr 2015 09:07:00 +0100
 
-php-phalcon (1.3.4-ppa1~precise) precise; urgency=low
+php-phalcon (1.3.4-ppa1~trusty) trusty; urgency=low
+>>>>>>> Temporary merge branch 2
   * Fix improper access to \Phalcon\Debug::$_charset (#2840)
   * Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
   * Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
@@ -103,7 +201,7 @@ php-phalcon (1.3.2-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 27 Jun 2014 15:42:00 +0100
 
-php-phalcon (1.2.5+git20140114-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.2.5+git20140114-ppa1~saucy1) saucy; urgency=low
 
   * Http\Cookie::__toString() will not throw exceptions (#1427)
   * Phalcon\Http\Cookie::__toString() will return a string value (#1428)
@@ -134,7 +232,7 @@ php-phalcon (1.2.5+git20140114-ppa1~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Tue, 14 Jan 2014 22:30:00 +0200
 
-php-phalcon (1.2.4~git20131023-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.2.4~git20131023-ppa1~raring1) raring; urgency=low
 
   * Fixed broken ACL inheritance (#905)
   * Fixed crash while rendering element's label (#1210)
@@ -175,13 +273,13 @@ php-phalcon (1.2.4~git20131023-ppa1~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 23 Oct 2013 10:59:59 +0300
 
-php-phalcon (1.2.3-ppa1~trusty1) trusty; urgency=high
+php-phalcon (1.2.3-ppa1~raring1) raring; urgency=high
 
   * Hardening patches (#1044)
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 11 Aug 2013 22:59:59 +0300
 
-php-phalcon (1.2.2.1-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.2.2.1-ppa1~raring1) raring; urgency=low
 
   * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
   * Fixed 'Sanitize filter is not supported' error (#1018, #1020)
@@ -194,7 +292,7 @@ php-phalcon (1.2.2.1-ppa1~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Fri,  9 Aug 2013 13:19:00 +0300
 
-php-phalcon (1.2.2-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.2.2-ppa1~raring1) raring; urgency=low
 
   * Phalcon\Mvc\Model\Query\Builder may now use both integer
     and string placeholders (#701)
@@ -208,7 +306,7 @@ php-phalcon (1.2.2-ppa1~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sat, 27 Jul 2013 02:10:01 +0300
 
-php-phalcon (1.2.1-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.2.1-ppa1~raring1) raring; urgency=low
 
   * Reduced overall memory usage (#834, #891, #893)
   * Faster internal array and string manipulation (#830, #833, #837)
@@ -245,7 +343,7 @@ php-phalcon (1.2.1-ppa1~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 23 Jul 2013 20:30:50 +0300
 
-php-phalcon (1.2.0-ppa2~trusty1) trusty; urgency=low
+php-phalcon (1.2.0-ppa2~raring1) raring; urgency=low
 
   * Fixed invalid memory reads (bug #848)
   * Work around php5-mongo's bugs (bug #851)
@@ -257,7 +355,7 @@ php-phalcon (1.2.0-ppa2~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
 
-php-phalcon (1.2.0-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.2.0-ppa1~raring1) raring; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
     the compilation path in Volt
@@ -344,7 +442,7 @@ php-phalcon (1.2.0-ppa1~trusty1) trusty; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
 
-php-phalcon (1.1.0-ppa1~trusty1) trusty; urgency=low
+php-phalcon (1.1.0-ppa1~raring1) raring; urgency=low
 
   * Improvements to the query builder allowing to define bound
     parameters in the "where" methods
