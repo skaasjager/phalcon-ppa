@@ -1,3 +1,30 @@
+php-phalcon (2.0.7-ppa1~precise) precise; urgency=low
+  * `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
+  * Fixed segfault in `Image\Adapter\Imagick::text()`
+  * Exceptions thrown in Volt compiler are now `Phalcon\Mvc\View\Engine\Exception`
+  * Now you can import macros from other files using `{% include "file.volt" %}`
+  * Undefined function calls fall back to macro calls in Volt
+  * Automatic bound parameters in `Mvc\Model\Criteria` now uses a different prefix than `Mvc\Model\Query\Builder` to avoid collissions 
+  * Added `Cache\Multiple::flush()` to flush the cache backends added to the multiple system
+  * Fixed `Session\Bag::remove()`
+  * `Session\Bag::destroy()` eliminates any temporary data in the variables bag
+  * `afterCreate`/`afterUpdate` are only called if saving related records was successful
+  * Added an optional parameter removeData to `Session\Adapter::remove()` to remove any data in `$_SESSION` that belongs to the uniqueId or the wholesession data 
+  * Now session variables making use of unique prefixes use `#` as internal separator
+  * Added parameter the changing operator for conditions in method `Mvc\Model\Criteria::fromImput()`[#10749](https://github.com/phalcon/cphalcon/issues/10749)
+  * Added `\Phalcon\Queue\Beanstalk::listTubes()` to get list of a tubes
+  * Added a fix to avoid that a table present in many sub-queries causes invalid SQL generation
+  * Add `CookieInterface`, update `Cookie` and `Cookies` to use this interface
+  * Decoupling `Cookies` and `Cookie`   * Check `Session` state before using it in `Cookie`. [#10789](https://github.com/phalcon/cphalcon/issues/10789)
+  * Fixed merge of `Phalcon\Config` instances containing objects different than `Phalcon\Config` compatible instances 
+  * When creating tables in Postgres, inline PRIMARY keys are now escaped properly[#10797](https://github.com/phalcon/cphalcon/pull/10797) 
+  * Fixed incorrect generation of `SELECT COUNT(\*)` causing unexpected exceptions when `phqlLiterals` is disabled
+  * Added `Phalcon\Security\Random`   
+  * secure random number generator class. Provides secure random number generator which is suitable for generatingsession key in HTTP cookies, etc
+
+ --  Stephen Hoogendijk <stephen@tca0.nl>  Tue, 27 Aug 2015 09:54:00 +0100
+
+
 php-phalcon (2.0.5-ppa1~precise) precise; urgency=low
   * Fixed a bug that makes that attaching an events manager to an Mvc\Application causes view->render() not being called
   * Fixed bug that makes generated SQL statements using FOR UPDATE not being parsed correctly 
@@ -49,7 +76,7 @@ php-phalcon (2.0.4-ppa1~precise) precise; urgency=low
 
  -- Sid Roberts <sid@sidroberts.co.uk>  Mon, 07 Jul 2015 15:00:00 +0100
 
-php-phalcon (2.0.3-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.3-ppa1~vivid) vivid; urgency=low
   * Added support for Behaviors in `Phalcon\Mvc\Collection`
   * Added SoftDelete and Timestampable behaviors to Collections
   * Implemented Namespace aliases in PHQL
@@ -67,7 +94,7 @@ php-phalcon (2.0.3-ppa1~precise) precise; urgency=low
 
  -- Sid Roberts <sid@sidroberts.co.uk>  Mon, 07 Jul 2015 15:00:00 +0100
 
-php-phalcon (2.0.2-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.2-ppa1~vivid) vivid; urgency=low
   * Added `stats()` methods to Beanstalk
   * Fixed segfault when a docblock does not have annotations (https://github.com/phalcon/cphalcon/issues/10301)
   * Fixed wrong number of parameters passed when triggering an event in Mvc\Collection
@@ -81,7 +108,7 @@ php-phalcon (2.0.2-ppa1~precise) precise; urgency=low
 
  -- Sid Roberts <sid@sidroberts.co.uk>  Mon, 07 Jul 2015 15:00:00 +0100
 
-php-phalcon (2.0.1-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.1-ppa1~vivid) vivid; urgency=low
   * Added missing Phalcon\Debug::listenLowSeverity
   * Added new theme in Phalcon\Debug
   * Allow to count and iterate Phalcon\Session\Bag as in 1.3.x
@@ -103,7 +130,7 @@ php-phalcon (2.0.1-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Mon, 11 May 2015 09:07:00 +0100
 
-php-phalcon (2.0.0-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.0-ppa1~vivid) vivid; urgency=low
   * Full rewrite of most components in Zephir
   * Added Phalcon\Mvc\Micro::error for better handling of exceptions
   * Phalcon\Forms\Form::label does not share attributes with the ones that belong to the element
@@ -122,7 +149,7 @@ php-phalcon (2.0.0-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Wed, 22 Apr 2015 09:07:00 +0100
 
-php-phalcon (1.3.4-ppa1~precise) precise; urgency=low
+php-phalcon (1.3.4-ppa1~vivid) vivid; urgency=low
   * Fix improper access to \Phalcon\Debug::$_charset (#2840)
   * Fix segfault in Phalcon\Mvc\Collection when an invalid parameter is passed as conditions
   * Fix segfault when MongoClient does not return a valid collection in Phalcon\Mvc\Collection
@@ -130,13 +157,13 @@ php-phalcon (1.3.4-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 14 Nov 2014 18:58:20 +0100
 
-php-phalcon (1.3.3-ppa1~precise) precise; urgency=low
+php-phalcon (1.3.3-ppa1~vivid) vivid; urgency=low
   * Fix segmentation fault in zim_Phalcon_Http_Request_getBasicAuth (#2819)
   * Fix memory corruption on unclean shutdown (#2829)
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 27 Jun 2014 15:42:00 +0100
 
-php-phalcon (1.3.2-ppa1~precise) precise; urgency=low
+php-phalcon (1.3.2-ppa1~vivid) vivid; urgency=low
   * fix inverted test in Model/setSnapshotData() (issue #2466)
   * Updated Phalcon\Queue\Beanstalk\Job::touch comment
   * Fixed use columns as referenced columns in mysql createTable() reference...
@@ -207,7 +234,7 @@ php-phalcon (1.3.2-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Fri, 27 Jun 2014 15:42:00 +0100
 
-php-phalcon (1.2.5+git20140114-ppa1~precise) precise; urgency=low
+php-phalcon (1.2.5+git20140114-ppa1~vivid) vivid; urgency=low
 
   * Http\Cookie::__toString() will not throw exceptions (#1427)
   * Phalcon\Http\Cookie::__toString() will return a string value (#1428)
@@ -238,7 +265,7 @@ php-phalcon (1.2.5+git20140114-ppa1~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Tue, 14 Jan 2014 22:30:00 +0200
 
-php-phalcon (1.2.4~git20131023-ppa1~precise) precise; urgency=low
+php-phalcon (1.2.4~git20131023-ppa1~vivid) vivid; urgency=low
 
   * Fixed broken ACL inheritance (#905)
   * Fixed crash while rendering element's label (#1210)
@@ -279,13 +306,13 @@ php-phalcon (1.2.4~git20131023-ppa1~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 23 Oct 2013 10:59:59 +0300
 
-php-phalcon (1.2.3-ppa1~precise) precise; urgency=high
+php-phalcon (1.2.3-ppa1~vivid) vivid; urgency=high
 
   * Hardening patches (#1044)
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sun, 11 Aug 2013 22:59:59 +0300
 
-php-phalcon (1.2.2.1-ppa1~precise) precise; urgency=low
+php-phalcon (1.2.2.1-ppa1~vivid) vivid; urgency=low
 
   * Fixed bugs in Phalcon\Config (#875, #980, #982, #1000, #1005)
   * Fixed 'Sanitize filter is not supported' error (#1018, #1020)
@@ -298,7 +325,7 @@ php-phalcon (1.2.2.1-ppa1~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Fri,  9 Aug 2013 13:19:00 +0300
 
-php-phalcon (1.2.2-ppa1~precise) precise; urgency=low
+php-phalcon (1.2.2-ppa1~vivid) vivid; urgency=low
 
   * Phalcon\Mvc\Model\Query\Builder may now use both integer
     and string placeholders (#701)
@@ -312,7 +339,7 @@ php-phalcon (1.2.2-ppa1~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Sat, 27 Jul 2013 02:10:01 +0300
 
-php-phalcon (1.2.1-ppa1~precise) precise; urgency=low
+php-phalcon (1.2.1-ppa1~vivid) vivid; urgency=low
 
   * Reduced overall memory usage (#834, #891, #893)
   * Faster internal array and string manipulation (#830, #833, #837)
@@ -349,7 +376,7 @@ php-phalcon (1.2.1-ppa1~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 23 Jul 2013 20:30:50 +0300
 
-php-phalcon (1.2.0-ppa2~precise) precise; urgency=low
+php-phalcon (1.2.0-ppa2~vivid) vivid; urgency=low
 
   * Fixed invalid memory reads (bug #848)
   * Work around php5-mongo's bugs (bug #851)
@@ -361,7 +388,7 @@ php-phalcon (1.2.0-ppa2~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 17 Jul 2013 14:10:00 +0300
 
-php-phalcon (1.2.0-ppa1~precise) precise; urgency=low
+php-phalcon (1.2.0-ppa1~vivid) vivid; urgency=low
 
   * Now 'compiledPath' option accept a closure to dynamically create
     the compilation path in Volt
@@ -448,7 +475,7 @@ php-phalcon (1.2.0-ppa1~precise) precise; urgency=low
 
  -- Vladimir Kolesnikov <vladimir@extrememember.com>  Wed, 10 Jul 2013 05:12:23 +0300
 
-php-phalcon (1.1.0-ppa1~precise) precise; urgency=low
+php-phalcon (1.1.0-ppa1~vivid) vivid; urgency=low
 
   * Improvements to the query builder allowing to define bound
     parameters in the "where" methods
