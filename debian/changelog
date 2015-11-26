@@ -1,3 +1,20 @@
+php-phalcon (2.0.9-ppa1~precise) precise; urgency=low
+
+  * Improved overall support of SQL for migrations
+  * Fixed bug that double serializes data using Redis adapter
+  * Added console:boot event to allow the developer to perform initialization actions
+  * Added implementation options allowEmpty for Phalcon\Mvc\Model\Validator\Ip
+  * Fixed SQLite bug[#10997] related to setting of index type
+  * Added Phalcon\Db\Dialect\Sqlite::listIndexesSql - to generate the SQL to get query list of indexes
+  * Fixed MySQL bug[#11036] related to setting of index type
+  * Added missed RouteInterface::setHostname, RouteInterface::getHostname
+  * Added strict option for ExclusionIn validator
+  * Added Phalcon\Text::underscore - to make a phrase underscored instead of spaced
+  * Added Phalcon\Text::humanize - to make an underscored or dashed phrase human-readable
+  * Added ability to change document class to be returned in ODM through class option
+
+ --  Senno Kaasjager <senno.kaasjager@gmail.com>  Sat, 26 Nov 2015 08:41:00 +0100
+
 php-phalcon (2.0.8-ppa1~precise) precise; urgency=low
 
   * Added Phalcon\Security\Random::base58 - to generate a random base58 string
