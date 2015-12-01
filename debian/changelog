@@ -1,4 +1,21 @@
-php-phalcon (2.0.8-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.9-ppa1~wily) wily; urgency=low
+
+  * Improved overall support of SQL for migrations
+  * Fixed bug that double serializes data using Redis adapter
+  * Added console:boot event to allow the developer to perform initialization actions
+  * Added implementation options allowEmpty for Phalcon\Mvc\Model\Validator\Ip
+  * Fixed SQLite bug[#10997] related to setting of index type
+  * Added Phalcon\Db\Dialect\Sqlite::listIndexesSql - to generate the SQL to get query list of indexes
+  * Fixed MySQL bug[#11036] related to setting of index type
+  * Added missed RouteInterface::setHostname, RouteInterface::getHostname
+  * Added strict option for ExclusionIn validator
+  * Added Phalcon\Text::underscore - to make a phrase underscored instead of spaced
+  * Added Phalcon\Text::humanize - to make an underscored or dashed phrase human-readable
+  * Added ability to change document class to be returned in ODM through class option
+
+ --  Senno Kaasjager <senno.kaasjager@gmail.com>  Sat, 26 Nov 2015 08:41:00 +0100
+
+php-phalcon (2.0.8-ppa1~wily) wily; urgency=low
 
   * Added Phalcon\Security\Random::base58 - to generate a random base58 string
   * Added Phalcon\Logger\Adapter::isTransaction() to check whether the logger is currently in transaction mode or not (Phalcon 1.3 behavior)
@@ -15,7 +32,7 @@ php-phalcon (2.0.8-ppa1~precise) precise; urgency=low
 
  --  Senno Kaasjager <senno.kaasjager@gmail.com>  Sat, 24 Oct 2015 21:32:00 +0100
 
-php-phalcon (2.0.7-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.7-ppa1~wily) wily; urgency=low
   * `Image\Adapter\Gd::save()` no longer fails if the method or the instance is created with a filename without an extension
   * Fixed segfault in `Image\Adapter\Imagick::text()`
   * Exceptions thrown in Volt compiler are now `Phalcon\Mvc\View\Engine\Exception`
@@ -42,7 +59,7 @@ php-phalcon (2.0.7-ppa1~precise) precise; urgency=low
  --  Stephen Hoogendijk <stephen@tca0.nl>  Tue, 27 Aug 2015 09:54:00 +0100
 
 
-php-phalcon (2.0.5-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.5-ppa1~wily) wily; urgency=low
   * Fixed a bug that makes that attaching an events manager to an Mvc\Application causes view->render() not being called
   * Fixed bug that makes generated SQL statements using FOR UPDATE not being parsed correctly 
   * The email filter now no longer removes the ' character  [#10603](https://github.com/phalcon/cphalcon/pull/10603)
@@ -50,7 +67,7 @@ php-phalcon (2.0.5-ppa1~precise) precise; urgency=low
 
  -- Stephen Hoogendijk <stephen@tca0.nl>  Tue, 14 Jul 2015 09:54:00 +0100
 
-php-phalcon (2.0.4-ppa1~precise) precise; urgency=low
+php-phalcon (2.0.4-ppa1~wily) wily; urgency=low
   * Fixed bug in `Phalcon\Mvc\Model::update()` that throws an exception when the record does exist
   * Now links in `Phalcon\Debug` point to https://api.phalconphp.com instead of http://docs.phalconphp.com
   * Implemented a more versatile way to assign variables in Volt allowing to assign properties and array indexes
