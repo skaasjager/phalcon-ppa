@@ -39,12 +39,12 @@ The repository contains several branches:
 2.  Clone the phalcon-ppa repository (`git clone https://github.com/phalcon/phalcon-ppa.git php-phalcon`). The directory **MUST** be named `php-phalcon`
 3.  If you need to bump the version (new version of Phalcon has been released) then you have to edit the changelog first (`vi debian/changelog`)
     * You will see a line similar to: `php-phalcon (2.0.11-ppa1~trusty) trusty; urgency=low`
-    * Copy this line and change the version to the version of the new phalcon release and the operating system codename (`trusty`, `precise`, etc.) to the proper name. Make sure that you enter the name of the edition of ubuntu that corresponds with the branch
+    * Copy this line and change the version to the version of the new phalcon release and the operating system codename (`trusty`, `precise`, etc.) to the proper name. Make sure that you enter the name of the edition of Ubuntu that corresponds with the branch
     * Finish the changelog by adding the actual changes that you can find in the official Phalcon `CHANGELOG.md`
 4.  Update the submodule of cphalcon by running: `git submodule update --init --recursive`
 5.  Commit the changes to this branch and repeat the process for all branches (you can use `git merge <current branch>` and then enter the correct os name by resolving the merge conflict).
-6.  Build the tar file for this release (`cd .. && tar czf php-phalcon_2.0.11.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian  --exclude=.gitignore && cd php-phalcon`). Change the version to the correct version. The resulting tar must be one directory up from php-phalcon!\
-7.  Go back to the php-phalcon directory (`cd php-phalcon`). Enter `gpg --list-keys` and copy your public key part (`pub 2048R/<something>`).
+6.  Build the tar file for this release (`cd .. && tar czf php-phalcon_2.0.11.orig.tar.gz php-phalcon --exclude=.git --exclude=.gitmodules --exclude=debian  --exclude=.gitignore && cd php-phalcon`). Change the version to the correct version. The resulting tar must be one directory up from `php-phalcon`
+7.  Go back to the `php-phalcon` directory (`cd php-phalcon`). Enter `gpg --list-keys` and copy your public key part (`pub 2048R/<something>`).
 8.  Build the package by running: `debuild -S -sa -k<your pubkey>`
 9.  Now upload the change file to the ppa. Go one directory up (`cd ..`) and upload the changes file (`dput ppa:phalcon/stable php-phalcon_2.0.11-ppa1~trusty_source.changes`)
 
