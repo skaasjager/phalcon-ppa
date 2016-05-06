@@ -1,3 +1,9 @@
+php-phalcon (2.0.11-ppa2~trusty) trusty; urgency=low
+
+  * Rebuild with latest Phalcon
+
+ --  Serghei Iakovlev <serghei@phalconphp.com>  Thu, 06 May 2016 09:02:00 +0300
+
 php-phalcon (2.0.11-ppa1~trusty) trusty; urgency=low
 
   * Fixed Model magic set functionality to maintain variable visibility and utilize setter methods
