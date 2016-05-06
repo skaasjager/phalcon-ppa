@@ -25,7 +25,7 @@ endif
 	dh $@
 
 override_dh_auto_configure:
-	(cd $(PHALCON_DIR); phpize5; ./configure --enable-phalcon=shared)
+	(cd $(PHALCON_DIR); phpize; ./configure --enable-phalcon=shared)
 
 override_dh_auto_build:
 	$(MAKE) -C $(PHALCON_DIR)
@@ -35,7 +35,7 @@ override_dh_auto_clean:
 	( \
 		cd $(PHALCON_DIR); \
 		[ -f Makefile ] && $(MAKE) distclean; \
-		phpize5 --clean; \
+		phpize --clean; \
 		rm -f tmp-php.ini; \
 	)
 
