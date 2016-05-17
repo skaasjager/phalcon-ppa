@@ -1,3 +1,11 @@
+php-phalcon (2.0.12-ppa1~vivid) vivid; urgency=low
+
+  * Fixed regression changes for Phalcon\Mvc\View\Engine\Volt::callMacro
+  * Fixed the argument type of Phalcon\Flash::success
+  * Restored Phalcon\Text::camelize behavior
+
+ --  Serghei Iakovlev <serghei@phalconphp.com>  Thu, 17 May 2016 20:18:10 +0300
+
 php-phalcon (2.0.11-build3-ppa1~vivid) vivid; urgency=low
 
   * Rebuild with latest Phalcon
